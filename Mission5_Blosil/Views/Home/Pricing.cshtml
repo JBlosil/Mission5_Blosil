@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Pricing";
+}
+
+<style>
+    .calculator-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align to the top */
+        align-items: center;
+        text-align: center;
+        margin-top: 50px; /* Adjust this value to move the container up */
+    }
+
+    input{
+        margin: 10px 0; /* Spacing above and below each element */
+    }
+
+    #error-message {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Flight Training Calculator</h1>
+</div>
+
+<div class="calculator-container">
+
+    <h2>Calculate Price</h2>
+    <div>
+        <label for="hours">Number of hours:</label>
+        <input type="number" id="hours" name="hours" min="1" required>
+        <span id="error-message" style="color: red; display: none;">Please enter a positive number.</span>
+    </div>
+
+    <div>
+        <label for="rate">Hourly rate:</label>
+        <input type="text" id="rate" name="rate" value="$50" readonly>
+    </div>
+
+    <div>
+        <button id="calculate">Calculate Total</button>
+    </div>
+
+    <div>
+        <label for="total">Total cost:</label>
+        <input type="text" id="total" name="total" readonly>
+    </div>
+
+    <a href="/">Back to Home Page</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#calculate').click(function () {
+                var hours = $('#hours').val();
+                var rate = $('#rate').val().replace('$', ''); // Remove the dollar sign
+                var errorMessage = $('#error-message');
+
+                // Validate input
+                if (isNaN(hours) || hours <= 0) {
+                    errorMessage.show();
+                    $('#total').val('');
+                } else {
+                    errorMessage.hide();
+                    var total = hours * rate;
+                    $('#total').val('$' + total.toFixed(2));
+                }
+            });
+        });
+    </script>
+}
